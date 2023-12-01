@@ -5,6 +5,8 @@ import com.delivery.fastfood.domain.entities.User;
 import com.delivery.fastfood.repositories.MenuRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class MenuService {
     private final MenuRepository menuRepository;
@@ -33,6 +35,10 @@ public class MenuService {
 
 
         return menuRepository.save(existingMenu);
+    }
+
+    public List<Menu> getAll(){
+        return menuRepository.findAll();
     }
 
     public Menu getById(Long id){

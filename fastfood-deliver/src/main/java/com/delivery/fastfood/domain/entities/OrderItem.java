@@ -2,20 +2,18 @@ package com.delivery.fastfood.domain.entities;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.Date;
+
 @Entity
-@Table(name = "menu")
-public class Menu implements Serializable {
+@Table(name = "orderItem")
+public class OrderItem implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
-    private Double price;
-    private Date createdAt;
-
-    public void setPrice(Double price) {
-        this.price = price;
-    }
+    private Integer count;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "cart_id")
+    private Cart cart;
 
     public Long getId() {
         return id;
@@ -33,19 +31,19 @@ public class Menu implements Serializable {
         this.name = name;
     }
 
-    public double getPrice() {
-        return price;
+    public Integer getCount() {
+        return count;
     }
 
-    public void setPrice(double price) {
-        this.price = price;
+    public void setCount(Integer count) {
+        this.count = count;
     }
 
-    public Date getCreatedAt() {
-        return createdAt;
+    public Cart getCart() {
+        return cart;
     }
 
-    public void setCreatedAt(Date createdAt) {
-        this.createdAt = createdAt;
+    public void setCart(Cart cart) {
+        this.cart = cart;
     }
 }

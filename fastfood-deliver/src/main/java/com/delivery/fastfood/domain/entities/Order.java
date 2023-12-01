@@ -15,13 +15,30 @@ public class Order implements Serializable {
     private Long id;
 
     private Long userId;
-    @OneToMany(cascade = CascadeType.ALL)
-    private List<Menu> products;
+    @ManyToOne
+    @JoinColumn(name = "cart_id") // Define the join column in the orders table
+    private Cart cart;
     private Date createdAt;
     private String yourAdress;
     private Float distance;
     private Double totalPrice;
     private Status status;
+
+    public Cart getCart() {
+        return cart;
+    }
+
+    public void setCart(Cart cart) {
+        this.cart = cart;
+    }
+
+    public Double getTotalPrice() {
+        return totalPrice;
+    }
+
+    public void setTotalPrice(Double totalPrice) {
+        this.totalPrice = totalPrice;
+    }
 
     public Long getId() {
         return id;
@@ -39,13 +56,6 @@ public class Order implements Serializable {
         this.userId = userId;
     }
 
-    public List<Menu> getProducts() {
-        return products;
-    }
-
-    public void setProducts(List<Menu> products) {
-        this.products = products;
-    }
 
     public Date getCreatedAt() {
         return createdAt;
