@@ -20,6 +20,7 @@ public class Order implements Serializable {
     private Date createdAt;
     private String yourAdress;
     private Float distance;
+    private Double totalPrice;
     private Status status;
 
     public Long getId() {
