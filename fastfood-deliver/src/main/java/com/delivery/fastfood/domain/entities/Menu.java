@@ -48,4 +48,5 @@ public class Menu implements Serializable {
     public void setCreatedAt(Date createdAt) {
         this.createdAt = createdAt;
     }
+
 }

@@ -14,23 +14,16 @@ public class Order implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private Long userId;
-
-
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
     private Date createdAt;
+    private Date updatedAt;
+    private Boolean isCart = true;
     private String yourAdress;
     private Float distance;
     private Double totalPrice;
     private Status status;
-
-
-    public Double getTotalPrice() {
-        return totalPrice;
-    }
-
-    public void setTotalPrice(Double totalPrice) {
-        this.totalPrice = totalPrice;
-    }
 
     public Long getId() {
         return id;
@@ -40,14 +33,13 @@ public class Order implements Serializable {
         this.id = id;
     }
 
-    public Long getUserId() {
-        return userId;
+    public User getUser() {
+        return user;
     }
 
-    public void setUserId(Long userId) {
-        this.userId = userId;
+    public void setUser(User user) {
+        this.user = user;
     }
-
 
     public Date getCreatedAt() {
         return createdAt;
@@ -55,6 +47,22 @@ public class Order implements Serializable {
 
     public void setCreatedAt(Date createdAt) {
         this.createdAt = createdAt;
+    }
+
+    public Date getUpdatedAt() {
+        return updatedAt;
+    }
+
+    public void setUpdatedAt(Date updatedAt) {
+        this.updatedAt = updatedAt;
+    }
+
+    public Boolean getCart() {
+        return isCart;
+    }
+
+    public void setCart(Boolean cart) {
+        isCart = cart;
     }
 
     public String getYourAdress() {
@@ -71,6 +79,14 @@ public class Order implements Serializable {
 
     public void setDistance(Float distance) {
         this.distance = distance;
+    }
+
+    public Double getTotalPrice() {
+        return totalPrice;
+    }
+
+    public void setTotalPrice(Double totalPrice) {
+        this.totalPrice = totalPrice;
     }
 
     public Status getStatus() {
