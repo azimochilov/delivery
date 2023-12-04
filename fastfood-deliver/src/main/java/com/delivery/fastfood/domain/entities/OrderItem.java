@@ -11,9 +11,7 @@ public class OrderItem implements Serializable {
     private Long id;
     private String name;
     private Integer count;
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "cart_id")
-    private Cart cart;
+
 
     public Long getId() {
         return id;
@@ -39,11 +37,4 @@ public class OrderItem implements Serializable {
         this.count = count;
     }
 
-    public Cart getCart() {
-        return cart;
-    }
-
-    public void setCart(Cart cart) {
-        this.cart = cart;
-    }
 }

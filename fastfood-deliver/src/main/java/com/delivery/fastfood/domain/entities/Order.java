@@ -15,22 +15,14 @@ public class Order implements Serializable {
     private Long id;
 
     private Long userId;
-    @ManyToOne
-    @JoinColumn(name = "cart_id") // Define the join column in the orders table
-    private Cart cart;
+
+
     private Date createdAt;
     private String yourAdress;
     private Float distance;
     private Double totalPrice;
     private Status status;
 
-    public Cart getCart() {
-        return cart;
-    }
-
-    public void setCart(Cart cart) {
-        this.cart = cart;
-    }
 
     public Double getTotalPrice() {
         return totalPrice;
