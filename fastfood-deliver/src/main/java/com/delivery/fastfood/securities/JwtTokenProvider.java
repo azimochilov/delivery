@@ -8,19 +8,25 @@ import io.jsonwebtoken.SignatureAlgorithm;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import com.delivery.fastfood.domain.entities.Role;
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.Jwts;
+
+import org.springframework.security.core.context.SecurityContextHolder;
 
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
+import javax.crypto.SecretKey;
 import javax.servlet.http.HttpServletRequest;
 import java.util.Base64;
 import java.util.Date;
 import java.util.Set;
-
+@Component
 public class JwtTokenProvider {
     @Value("${jwt.token.secret}")
     private String secret;
@@ -46,7 +52,7 @@ public class JwtTokenProvider {
     }
     public String createToken(String username, Set<Role> roles){
         Claims claims = Jwts.claims().setSubject(username);
-        claims.put("userId", getUserId(username));
+//        claims.put("userId", getUserId(username));
         claims.put("role", roles);
 
         Date now = new Date();
@@ -85,8 +91,15 @@ public class JwtTokenProvider {
         return Jwts.parser().setSigningKey(secret).parseClaimsJws(token).getBody().getSubject();
     }
 
+    private Long extractUserId(Claims claims) {
+        // Example: Extract user ID from claims
+        // Adjust this logic based on your actual claims structure
+        return Long.parseLong(claims.get("userId", String.class));
+    }
+
     private Long getUserId(String username) {
         User user = (User) userDetailsService.loadUserByUsername(username);
         return user != null ? user.getId() : null;
     }
+
 }

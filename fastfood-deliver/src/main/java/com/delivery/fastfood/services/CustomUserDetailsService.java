@@ -16,6 +16,11 @@ import java.util.stream.Collectors;
 @Component
 public class CustomUserDetailsService implements UserDetailsService {
     private final UserRepository userRepository;
+    private Long userId;
+
+    public Long getUserId() {
+        return this.userId;
+    }
 
     public CustomUserDetailsService(UserRepository userRepository) {
         this.userRepository = userRepository;
@@ -32,8 +37,13 @@ public class CustomUserDetailsService implements UserDetailsService {
         return new CustomUserDetails(user);
     }
 
+
+
+
+
     private static class CustomUserDetails implements UserDetails {
         private final User user;
+
 
         public CustomUserDetails(User user) {
             this.user = user;
@@ -45,6 +55,8 @@ public class CustomUserDetailsService implements UserDetailsService {
                     .map(role -> new SimpleGrantedAuthority(role.getName()))
                     .collect(Collectors.toList());
         }
+
+
 
         @Override
         public String getPassword() {
@@ -75,14 +87,6 @@ public class CustomUserDetailsService implements UserDetailsService {
         public boolean isEnabled() {
             return true;
         }
-
-
-        public Long getUserId() {
-            return user.getId();
-        }
-
-
-
 
     }
 }

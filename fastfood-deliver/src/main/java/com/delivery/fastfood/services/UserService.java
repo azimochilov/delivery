@@ -1,6 +1,8 @@
 package com.delivery.fastfood.services;
 
+import com.delivery.fastfood.domain.entities.Order;
 import com.delivery.fastfood.domain.entities.User;
+import com.delivery.fastfood.repositories.OrderRepository;
 import com.delivery.fastfood.repositories.UserRepository;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -10,16 +12,22 @@ import java.util.List;
 @Service
 public class UserService {
     private final UserRepository userRepository;
-    //private final PasswordEncoder passwordEncoder;
+    private final PasswordEncoder passwordEncoder;
+    private final OrderRepository orderRepository;
 
-    public UserService(UserRepository userRepository/*, PasswordEncoder passwordEncoder*/) {
+    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder, OrderRepository orderRepository) {
         this.userRepository = userRepository;
-        //this.passwordEncoder = passwordEncoder;
+        this.passwordEncoder = passwordEncoder;
+        this.orderRepository = orderRepository;
     }
 
     public User create(User user){
-       // user.setPassword(passwordEncoder.encode(user.getPassword()));
-        return userRepository.save(user);
+        Order order = new Order();
+        order.setUser(user);
+       user.setPassword(passwordEncoder.encode(user.getPassword()));
+       User savedUser = userRepository.save(user);
+        orderRepository.save(order);
+        return savedUser;
     }
 
     public void delete(User user){
@@ -52,6 +60,14 @@ public class UserService {
             throw new RuntimeException("User not found with this id");
         }
         return existingUser;
+    }
+
+    public Long getId(String username){
+        User existingUser = userRepository.findByUserName(username);
+        if (existingUser == null) {
+            throw new RuntimeException("User not found with this id");
+        }
+        return existingUser.getId();
     }
 
     public Boolean checkUserName(String userName){
