@@ -1,9 +1,12 @@
-package com.delivery.fastfood.domain.entities;
+package com.delivery.fastfood.domain.entities.orders;
 
+
+import com.delivery.fastfood.domain.entities.User;
 import com.delivery.fastfood.domain.enums.Status;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
 @Entity
@@ -22,8 +25,35 @@ public class Order implements Serializable {
     private Boolean isCart = true;
     private String yourAdress;
     private Float distance;
+    private String phone;
     private Double totalPrice;
     private Status status;
+    private Integer amountOfProducts;
+    private LocalDateTime deliveryTime;
+
+    public LocalDateTime getDeliveryTime() {
+        return deliveryTime;
+    }
+
+    public void setDeliveryTime(LocalDateTime deliveryTime) {
+        this.deliveryTime = deliveryTime;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
+    public Integer getAmountOfProducts() {
+        return amountOfProducts;
+    }
+
+    public void setAmountOfProducts(Integer amountOfProducts) {
+        this.amountOfProducts = amountOfProducts;
+    }
 
     public Long getId() {
         return id;

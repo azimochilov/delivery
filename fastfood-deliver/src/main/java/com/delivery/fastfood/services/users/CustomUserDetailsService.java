@@ -1,4 +1,4 @@
-package com.delivery.fastfood.services;
+package com.delivery.fastfood.services.users;
 
 
 import com.delivery.fastfood.domain.entities.User;

@@ -1,7 +1,7 @@
-package com.delivery.fastfood.services;
+package com.delivery.fastfood.services.products;
+
 
 import com.delivery.fastfood.domain.entities.Menu;
-import com.delivery.fastfood.domain.entities.User;
 import com.delivery.fastfood.repositories.MenuRepository;
 import org.springframework.stereotype.Service;
 

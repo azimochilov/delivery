@@ -2,9 +2,8 @@ package com.delivery.fastfood.rests;
 
 import com.delivery.fastfood.domain.entities.Menu;
 import com.delivery.fastfood.securities.SecurityUtils;
-import com.delivery.fastfood.services.MenuService;
+import com.delivery.fastfood.services.products.MenuService;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 

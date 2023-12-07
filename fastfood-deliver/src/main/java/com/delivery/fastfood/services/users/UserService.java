@@ -1,7 +1,7 @@
-package com.delivery.fastfood.services;
+package com.delivery.fastfood.services.users;
 
-import com.delivery.fastfood.domain.entities.Order;
 import com.delivery.fastfood.domain.entities.User;
+import com.delivery.fastfood.domain.entities.orders.Order;
 import com.delivery.fastfood.repositories.OrderRepository;
 import com.delivery.fastfood.repositories.UserRepository;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -24,8 +24,8 @@ public class UserService {
     public User create(User user){
         Order order = new Order();
         order.setUser(user);
-       user.setPassword(passwordEncoder.encode(user.getPassword()));
-       User savedUser = userRepository.save(user);
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
+        User savedUser = userRepository.save(user);
         orderRepository.save(order);
         return savedUser;
     }

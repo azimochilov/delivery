@@ -1,7 +1,7 @@
 package com.delivery.fastfood.rests;
 
 import com.delivery.fastfood.domain.entities.Product;
-import com.delivery.fastfood.services.OrderItemService;
+import com.delivery.fastfood.services.orders.OrderItemService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;

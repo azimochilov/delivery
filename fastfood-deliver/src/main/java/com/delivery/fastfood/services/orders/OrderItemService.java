@@ -1,22 +1,19 @@
-package com.delivery.fastfood.services;
+package com.delivery.fastfood.services.orders;
+
 
 import com.delivery.fastfood.domain.entities.Menu;
-import com.delivery.fastfood.domain.entities.Order;
-import com.delivery.fastfood.domain.entities.OrderItem;
 import com.delivery.fastfood.domain.entities.Product;
+import com.delivery.fastfood.domain.entities.orders.Order;
+import com.delivery.fastfood.domain.entities.orders.OrderItem;
 import com.delivery.fastfood.repositories.MenuRepository;
 import com.delivery.fastfood.repositories.OrderItemRepository;
 import com.delivery.fastfood.repositories.OrderRepository;
 import com.delivery.fastfood.securities.SecurityUtils;
+import com.delivery.fastfood.services.users.UserService;
 import org.springframework.stereotype.Service;
-
-import java.time.Instant;
+import java.util.Date;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
-import java.util.Date;
-
-import static com.fasterxml.jackson.databind.type.LogicalType.DateTime;
-
 @Service
 public class OrderItemService {
     private final OrderItemRepository orderItemRepository;
@@ -46,6 +43,15 @@ public class OrderItemService {
         orderItem.setCount(product.getCount());
         orderItem.setName(product.getName());
         orderItem.setMenu(menu);
+        Double total = (menu.getPrice()* product.getCount());
+        if(userOrder.getTotalPrice() == null){
+            userOrder.setTotalPrice(total);
+            userOrder.setAmountOfProducts(product.getCount());
+        }else {
+            userOrder.setTotalPrice(userOrder.getTotalPrice() + total);
+            userOrder.setAmountOfProducts(userOrder.getAmountOfProducts()+product.getCount());
+        }
+        orderRepository.save(userOrder);
         return orderItemRepository.save(orderItem);
     }
 

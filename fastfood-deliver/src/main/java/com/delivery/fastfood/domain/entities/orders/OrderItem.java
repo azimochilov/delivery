@@ -1,4 +1,6 @@
-package com.delivery.fastfood.domain.entities;
+package com.delivery.fastfood.domain.entities.orders;
+import com.delivery.fastfood.domain.entities.Menu;
+import com.delivery.fastfood.domain.entities.orders.Order;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -77,3 +79,4 @@ public class OrderItem implements Serializable {
         this.order = order;
     }
 }
+
