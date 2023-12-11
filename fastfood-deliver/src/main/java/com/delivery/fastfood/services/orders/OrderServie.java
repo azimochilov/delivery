@@ -2,6 +2,7 @@ package com.delivery.fastfood.services.orders;
 
 import com.delivery.fastfood.domain.entities.orders.Order;
 import com.delivery.fastfood.domain.entities.orders.OrderInfo;
+import com.delivery.fastfood.domain.enums.Status;
 import com.delivery.fastfood.repositories.OrderItemRepository;
 import com.delivery.fastfood.repositories.OrderRepository;
 import com.delivery.fastfood.repositories.UserRepository;
@@ -17,11 +18,13 @@ public class OrderServie {
     private final UserRepository userRepository;
     private final UserService userService;
     private final OrderItemRepository orderItemRepository;
-    public OrderServie(OrderRepository orderRepository, UserRepository userRepository, UserService userService, OrderItemRepository orderItemRepository) {
+    private final OrderItemService orderItemService;
+    public OrderServie(OrderRepository orderRepository, UserRepository userRepository, UserService userService, OrderItemRepository orderItemRepository, OrderItemService orderItemService) {
         this.orderRepository = orderRepository;
         this.userRepository = userRepository;
         this.userService = userService;
         this.orderItemRepository = orderItemRepository;
+        this.orderItemService = orderItemService;
     }
 
     public Order craeteOrder(OrderInfo orderInfo){
@@ -31,22 +34,50 @@ public class OrderServie {
         userOrder.setDistance(orderInfo.getDistance());
         userOrder.setYourAdress(orderInfo.getYourAdress());
         userOrder.setPhone(orderInfo.getPhone());
-        userOrder.setAmountOfProducts(orderItemRepository.countByOrderId(userOrder.getId()));
+        userOrder.setAmountOfProducts(orderItemService.getProductsByOrderId(userOrder.getId()));
         userOrder.setDeliveryTime(calculateEstimatedDeliveryTime(userOrder.getAmountOfProducts(),4));
         return userOrder;
     }
 
-    public static LocalDateTime calculateEstimatedDeliveryTime(int numberOfItems, int distanceInKilometers) {
+    public static String calculateEstimatedDeliveryTime(int numberOfItems, int distanceInKilometers) {
         int totalPreparationTime = (numberOfItems / 4) * 5 + (numberOfItems % 4 != 0 ? 5 : 0);
 
-        // Calculate delivery time based on distance
         int deliveryTimeForDistance = distanceInKilometers * 3;
 
         LocalDateTime now = LocalDateTime.now();
         LocalDateTime estimatedDeliveryTime = now.plusMinutes(totalPreparationTime + deliveryTimeForDistance);
-
-        return estimatedDeliveryTime;
+        String devTime = String.valueOf(estimatedDeliveryTime.getHour()+ estimatedDeliveryTime.getMinute()+"minutes");
+        return devTime;
     }
+
+    public void AcceptOrder(Long orderId){
+        Order order = orderRepository.getById(orderId);
+        if(order.getCart() == true) {
+            order.setStatus(Status.ACCEPTED);
+        }
+    }
+
+    public void RejectOrder(Long orderId){
+        Order order = orderRepository.getById(orderId);
+        if(order.getCart() == true) {
+            order.setStatus(Status.REJECTED);
+            order.setCart(false);
+            Order newOrder = new Order();
+            newOrder.setUser(order.getUser());
+        }
+    }
+
+    public void DeliverOrder(Long orderId){
+        Order order = orderRepository.getById(orderId);
+        if(order.getCart() == true) {
+            order.setStatus(Status.DELIVERED);
+            order.setCart(false);
+            Order newOrder = new Order();
+            newOrder.setUser(order.getUser());
+        }
+    }
+
+
 
 
 

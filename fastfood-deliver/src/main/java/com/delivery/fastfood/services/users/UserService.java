@@ -22,6 +22,7 @@ public class UserService {
     }
 
     public User create(User user){
+
         Order order = new Order();
         order.setUser(user);
         user.setPassword(passwordEncoder.encode(user.getPassword()));

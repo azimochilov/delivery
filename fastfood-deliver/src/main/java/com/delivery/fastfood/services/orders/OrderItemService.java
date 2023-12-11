@@ -11,9 +11,13 @@ import com.delivery.fastfood.repositories.OrderRepository;
 import com.delivery.fastfood.securities.SecurityUtils;
 import com.delivery.fastfood.services.users.UserService;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
 import java.util.Date;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
+import java.util.List;
+
 @Service
 public class OrderItemService {
     private final OrderItemRepository orderItemRepository;
@@ -53,6 +57,26 @@ public class OrderItemService {
         }
         orderRepository.save(userOrder);
         return orderItemRepository.save(orderItem);
+    }
+
+    public Integer getProductsByOrderId(Long orderId){
+        List<OrderItem> relatedItems = new ArrayList<>();
+
+        for(OrderItem orderItem : orderItemRepository.findAll()){
+            if(orderItem.getOrder().getId() == orderId){
+                relatedItems.add(orderItem);
+            }
+        }
+
+        return getCountOfProducts(relatedItems);
+    }
+
+    public Integer getCountOfProducts(List<OrderItem> orderItems){
+        Integer count = 0;
+        for(OrderItem orderItem : orderItems){
+            count += orderItem.getCount();
+        }
+        return count;
     }
 
 

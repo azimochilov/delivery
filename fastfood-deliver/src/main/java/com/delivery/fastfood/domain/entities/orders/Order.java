@@ -29,13 +29,13 @@ public class Order implements Serializable {
     private Double totalPrice;
     private Status status;
     private Integer amountOfProducts;
-    private LocalDateTime deliveryTime;
+    private String deliveryTime;
 
-    public LocalDateTime getDeliveryTime() {
+    public String getDeliveryTime() {
         return deliveryTime;
     }
 
-    public void setDeliveryTime(LocalDateTime deliveryTime) {
+    public void setDeliveryTime(String deliveryTime) {
         this.deliveryTime = deliveryTime;
     }
 
