@@ -1,11 +1,11 @@
 package com.delivery.fastfood.rests;
 
 import com.delivery.fastfood.domain.entities.Menu;
+import com.delivery.fastfood.domain.entities.Product;
 import com.delivery.fastfood.securities.SecurityUtils;
 import com.delivery.fastfood.services.products.MenuService;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -18,9 +18,32 @@ public class MenuResource {
         this.menuService = menuService;
     }
 
-    @GetMapping
-    public List<Menu> getAllMenu(){
-        System.out.println(SecurityUtils.getUserName());
-        return  menuService.getAll();
+    @PostMapping("/product")
+    public ResponseEntity create(@RequestBody Menu product){
+        menuService.create(product);
+        return ResponseEntity.ok(product);
+    }
+
+    @DeleteMapping("/product/{id}")
+    public ResponseEntity delete(@RequestBody Long id){
+        menuService.delete(id);
+        return ResponseEntity.ok("deleted");
+    }
+
+    @GetMapping("/products")
+    public ResponseEntity getAll(){
+        List<Menu> products = menuService.getAll();
+        return ResponseEntity.ok(products);
+    }
+
+    @GetMapping("/product/{id}")
+    public ResponseEntity getById(@RequestBody Long id){
+        return ResponseEntity.ok(menuService.getById(id));
+    }
+
+    @PutMapping("/product/{name}")
+    public ResponseEntity update(@PathVariable String name,@RequestBody Menu menu){
+        Menu updatedMenu = menuService.update(name,menu);
+        return ResponseEntity.ok(updatedMenu);
     }
 }

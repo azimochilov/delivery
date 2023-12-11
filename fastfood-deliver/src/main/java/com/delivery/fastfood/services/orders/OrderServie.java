@@ -12,6 +12,7 @@ import com.delivery.fastfood.services.users.UserService;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Service
 public class OrderServie {
@@ -51,7 +52,7 @@ public class OrderServie {
         return devTime;
     }
 
-    public void AcceptOrder(Long orderId){
+    public void acceptOrder(Long orderId){
         Order order = orderRepository.getById(orderId);
         if(order == null){
             throw new NotFoundException("Order not found!");
@@ -61,7 +62,7 @@ public class OrderServie {
         }
     }
 
-    public void RejectOrder(Long orderId){
+    public void rejectOrder(Long orderId){
         Order order = orderRepository.getById(orderId);
         if(order == null){
             throw new NotFoundException("Order not found!");
@@ -74,7 +75,7 @@ public class OrderServie {
         }
     }
 
-    public void DeliverOrder(Long orderId){
+    public void deliverOrder(Long orderId){
         Order order = orderRepository.getById(orderId);
         if(order == null){
             throw new NotFoundException("Order not found!");
@@ -87,7 +88,11 @@ public class OrderServie {
         }
     }
 
+    public List<Order> getAllOrder(){
+        return orderRepository.findAll();
+    }
 
+    public List<Order> getAllOrder
 
 
 
