@@ -2,6 +2,7 @@ package com.delivery.fastfood.services.products;
 
 
 import com.delivery.fastfood.domain.entities.Menu;
+import com.delivery.fastfood.exception.NotFoundException;
 import com.delivery.fastfood.repositories.MenuRepository;
 import org.springframework.stereotype.Service;
 
@@ -16,6 +17,10 @@ public class MenuService {
     }
 
     public Menu create(Menu menu){
+        Menu exsistsMenu = menuRepository.findByName(menu.getName());
+        if(exsistsMenu == null){
+            throw new NotFoundException("Product already exsists! ");
+        }
         return menuRepository.save(menu);
     }
 
@@ -27,7 +32,7 @@ public class MenuService {
         Menu existingMenu = menuRepository.findByName(name);
 
         if (existingMenu == null) {
-            throw new RuntimeException("Product not found");
+            throw new NotFoundException("Product not found");
         }
 
         existingMenu.setName(updtMenu.getName());
@@ -44,7 +49,7 @@ public class MenuService {
     public Menu getById(Long id){
         Menu existingMenu = menuRepository.findById(id).get();
         if (existingMenu == null) {
-            throw new RuntimeException("Product not found with this id");
+            throw new NotFoundException("Product not found with this id");
         }
         return menuRepository.findById(id).get();
     }

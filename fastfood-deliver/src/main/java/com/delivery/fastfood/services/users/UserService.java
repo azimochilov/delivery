@@ -2,6 +2,7 @@ package com.delivery.fastfood.services.users;
 
 import com.delivery.fastfood.domain.entities.User;
 import com.delivery.fastfood.domain.entities.orders.Order;
+import com.delivery.fastfood.exception.NotFoundException;
 import com.delivery.fastfood.repositories.OrderRepository;
 import com.delivery.fastfood.repositories.UserRepository;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -22,7 +23,10 @@ public class UserService {
     }
 
     public User create(User user){
-
+        User checkForUserExsists = userRepository.getById(user.getId());
+        if(checkForUserExsists == null){
+            throw new NotFoundException("User already exsists");
+        }
         Order order = new Order();
         order.setUser(user);
         user.setPassword(passwordEncoder.encode(user.getPassword()));
@@ -39,7 +43,7 @@ public class UserService {
         User existingUser = userRepository.findByUserName(userName);
 
         if (existingUser == null) {
-            throw new RuntimeException("User not found with username: " + userName);
+            throw new NotFoundException("User not found with username: " + userName);
         }
 
         existingUser.setUserName(updatedUserData.getUserName());
@@ -58,7 +62,7 @@ public class UserService {
     public User getById(Long id){
         User existingUser = userRepository.getById(id);
         if (existingUser == null) {
-            throw new RuntimeException("User not found with this id");
+            throw new NotFoundException("User not found with this id");
         }
         return existingUser;
     }
@@ -66,7 +70,7 @@ public class UserService {
     public Long getId(String username){
         User existingUser = userRepository.findByUserName(username);
         if (existingUser == null) {
-            throw new RuntimeException("User not found with this id");
+            throw new NotFoundException("User not found with this id");
         }
         return existingUser.getId();
     }

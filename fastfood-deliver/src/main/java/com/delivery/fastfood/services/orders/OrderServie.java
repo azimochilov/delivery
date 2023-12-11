@@ -3,6 +3,7 @@ package com.delivery.fastfood.services.orders;
 import com.delivery.fastfood.domain.entities.orders.Order;
 import com.delivery.fastfood.domain.entities.orders.OrderInfo;
 import com.delivery.fastfood.domain.enums.Status;
+import com.delivery.fastfood.exception.NotFoundException;
 import com.delivery.fastfood.repositories.OrderItemRepository;
 import com.delivery.fastfood.repositories.OrderRepository;
 import com.delivery.fastfood.repositories.UserRepository;
@@ -52,6 +53,9 @@ public class OrderServie {
 
     public void AcceptOrder(Long orderId){
         Order order = orderRepository.getById(orderId);
+        if(order == null){
+            throw new NotFoundException("Order not found!");
+        }
         if(order.getCart() == true) {
             order.setStatus(Status.ACCEPTED);
         }
@@ -59,6 +63,9 @@ public class OrderServie {
 
     public void RejectOrder(Long orderId){
         Order order = orderRepository.getById(orderId);
+        if(order == null){
+            throw new NotFoundException("Order not found!");
+        }
         if(order.getCart() == true) {
             order.setStatus(Status.REJECTED);
             order.setCart(false);
@@ -69,6 +76,9 @@ public class OrderServie {
 
     public void DeliverOrder(Long orderId){
         Order order = orderRepository.getById(orderId);
+        if(order == null){
+            throw new NotFoundException("Order not found!");
+        }
         if(order.getCart() == true) {
             order.setStatus(Status.DELIVERED);
             order.setCart(false);

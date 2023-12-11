@@ -5,6 +5,7 @@ import com.delivery.fastfood.domain.entities.Menu;
 import com.delivery.fastfood.domain.entities.Product;
 import com.delivery.fastfood.domain.entities.orders.Order;
 import com.delivery.fastfood.domain.entities.orders.OrderItem;
+import com.delivery.fastfood.exception.NotFoundException;
 import com.delivery.fastfood.repositories.MenuRepository;
 import com.delivery.fastfood.repositories.OrderItemRepository;
 import com.delivery.fastfood.repositories.OrderRepository;
@@ -39,7 +40,7 @@ public class OrderItemService {
 
         Menu menu = menuRepository.findByName(product.getName());
         if(menu == null){
-            throw new RuntimeException("Product for given name not found!");
+            throw new NotFoundException("Product for given name not found!");
         }
         OrderItem orderItem = new OrderItem();
         orderItem.setOrder(userOrder);
