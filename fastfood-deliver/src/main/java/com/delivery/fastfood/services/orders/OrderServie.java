@@ -11,8 +11,10 @@ import com.delivery.fastfood.securities.SecurityUtils;
 import com.delivery.fastfood.services.users.UserService;
 import org.springframework.stereotype.Service;
 
+import java.time.Instant;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -36,6 +38,7 @@ public class OrderServie {
         Order userOrder = orderRepository.getByUserId(currentUserId);
         userOrder.setDistance(orderInfo.getDistance());
         userOrder.setYourAdress(orderInfo.getYourAdress());
+        userOrder.setCreatedAt(Date.from(Instant.now()));
         userOrder.setPhone(orderInfo.getPhone());
         userOrder.setAmountOfProducts(orderItemService.getProductsByOrderId(userOrder.getId()));
         userOrder.setDeliveryTime(calculateEstimatedDeliveryTime(userOrder.getAmountOfProducts(),4));

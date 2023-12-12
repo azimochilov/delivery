@@ -6,6 +6,8 @@ import com.delivery.fastfood.exception.NotFoundException;
 import com.delivery.fastfood.repositories.MenuRepository;
 import org.springframework.stereotype.Service;
 
+import java.time.Instant;
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -21,6 +23,7 @@ public class MenuService {
         if(exsistsMenu == null){
             throw new NotFoundException("Product already exsists! ");
         }
+        menu.setCreatedAt(Date.from(Instant.now()));
         return menuRepository.save(menu);
     }
 

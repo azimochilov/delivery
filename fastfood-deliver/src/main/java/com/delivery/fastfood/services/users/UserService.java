@@ -8,6 +8,8 @@ import com.delivery.fastfood.repositories.UserRepository;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.time.Instant;
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -30,6 +32,7 @@ public class UserService {
         Order order = new Order();
         order.setUser(user);
         user.setPassword(passwordEncoder.encode(user.getPassword()));
+        user.setRegisteredAt(Date.from(Instant.now()));
         User savedUser = userRepository.save(user);
         orderRepository.save(order);
         return savedUser;

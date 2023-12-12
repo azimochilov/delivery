@@ -1,6 +1,5 @@
 package com.delivery.fastfood.services.orders;
 
-
 import com.delivery.fastfood.domain.entities.Menu;
 import com.delivery.fastfood.domain.entities.Product;
 import com.delivery.fastfood.domain.entities.orders.Order;
@@ -13,6 +12,7 @@ import com.delivery.fastfood.securities.SecurityUtils;
 import com.delivery.fastfood.services.users.UserService;
 import org.springframework.stereotype.Service;
 
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Date;
 import java.time.LocalDateTime;
@@ -47,6 +47,7 @@ public class OrderItemService {
         orderItem.setCreatedAt(Date.from(LocalDateTime.now().atZone(ZoneId.systemDefault()).toInstant()));
         orderItem.setCount(product.getCount());
         orderItem.setName(product.getName());
+        orderItem.setCreatedAt(Date.from(Instant.now()));
         orderItem.setMenu(menu);
         Double total = (menu.getPrice()* product.getCount());
         if(userOrder.getTotalPrice() == null){
