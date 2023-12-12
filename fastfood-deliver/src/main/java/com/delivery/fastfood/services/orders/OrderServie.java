@@ -12,6 +12,7 @@ import com.delivery.fastfood.services.users.UserService;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -92,7 +93,25 @@ public class OrderServie {
         return orderRepository.findAll();
     }
 
-    public List<Order> getAllOrder
+    public List<Order> getAllOrderIsCartFalse(){
+        List<Order> orderFalse = new ArrayList<>();
+        for(Order order : orderRepository.findAll()){
+            if(order.getCart() == false){
+                orderFalse.add(order);
+            }
+        }
+        return orderFalse;
+    }
+
+    public List<Order> getAllOrderIsCartTrue(){
+        List<Order> orderTrue = new ArrayList<>();
+        for(Order order : orderRepository.findAll()){
+            if(order.getCart() == true){
+                orderTrue.add(order);
+            }
+        }
+        return orderTrue;
+    }
 
 
 

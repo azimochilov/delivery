@@ -17,7 +17,7 @@ public class OrderItemResource {
         this.orderItemService = orderItemService;
     }
 
-    @PostMapping("/create")
+    @PostMapping("/order/items")
     public ResponseEntity create(@RequestBody Product product){
         orderItemService.createOrderItem(product);
         return ResponseEntity.ok(product);

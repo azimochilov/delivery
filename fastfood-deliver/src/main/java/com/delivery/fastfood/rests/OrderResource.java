@@ -38,5 +38,17 @@ public class OrderResource {
         return ResponseEntity.ok("Order with given id Delivered!! ");
     }
 
+    @GetMapping("/orders")
+    public ResponseEntity getAll(){
+        return ResponseEntity.ok(orderServie.getAllOrder());
+    }
+    @GetMapping("/orders/false")
+    public ResponseEntity getAllIsCartFalse(){
+        return ResponseEntity.ok(orderServie.getAllOrderIsCartFalse());
+    }
 
+    @GetMapping("/orders/true")
+    public ResponseEntity getAllIsCartTrue(){
+        return ResponseEntity.ok(orderServie.getAllOrderIsCartTrue());
+    }
 }
