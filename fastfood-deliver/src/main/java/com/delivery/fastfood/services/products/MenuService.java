@@ -20,7 +20,7 @@ public class MenuService {
 
     public Menu create(Menu menu){
         Menu exsistsMenu = menuRepository.findByName(menu.getName());
-        if(exsistsMenu == null){
+        if(exsistsMenu != null){
             throw new NotFoundException("Product already exsists! ");
         }
         menu.setCreatedAt(Date.from(Instant.now()));

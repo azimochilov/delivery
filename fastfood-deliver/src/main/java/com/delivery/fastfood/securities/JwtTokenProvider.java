@@ -92,8 +92,6 @@ public class JwtTokenProvider {
     }
 
     private Long extractUserId(Claims claims) {
-        // Example: Extract user ID from claims
-        // Adjust this logic based on your actual claims structure
         return Long.parseLong(claims.get("userId", String.class));
     }
 

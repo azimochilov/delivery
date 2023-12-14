@@ -25,17 +25,17 @@ public class UserService {
     }
 
     public User create(User user){
-        User checkForUserExsists = userRepository.getById(user.getId());
-        if(checkForUserExsists == null){
-            throw new NotFoundException("User already exsists");
-        }
+//        User checkForUserExsists = userRepository.getById(user.getId());
+//        if(checkForUserExsists != null){
+//            throw new NotFoundException("User already exsists");
+//        }
         Order order = new Order();
         order.setUser(user);
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         user.setRegisteredAt(Date.from(Instant.now()));
-        User savedUser = userRepository.save(user);
+        userRepository.save(user);
         orderRepository.save(order);
-        return savedUser;
+        return user;
     }
 
     public void delete(User user){

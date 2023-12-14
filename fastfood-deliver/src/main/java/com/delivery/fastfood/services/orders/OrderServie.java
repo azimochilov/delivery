@@ -42,6 +42,7 @@ public class OrderServie {
         userOrder.setPhone(orderInfo.getPhone());
         userOrder.setAmountOfProducts(orderItemService.getProductsByOrderId(userOrder.getId()));
         userOrder.setDeliveryTime(calculateEstimatedDeliveryTime(userOrder.getAmountOfProducts(),4));
+        orderRepository.save(userOrder);
         return userOrder;
     }
 
@@ -74,6 +75,7 @@ public class OrderServie {
         if(order.getCart() == true) {
             order.setStatus(Status.REJECTED);
             order.setCart(false);
+            orderRepository.save(order);
             Order newOrder = new Order();
             newOrder.setUser(order.getUser());
         }
@@ -87,6 +89,7 @@ public class OrderServie {
         if(order.getCart() == true) {
             order.setStatus(Status.DELIVERED);
             order.setCart(false);
+            orderRepository.save(order);
             Order newOrder = new Order();
             newOrder.setUser(order.getUser());
         }
@@ -114,6 +117,10 @@ public class OrderServie {
             }
         }
         return orderTrue;
+    }
+
+    public List<Order> getAllByStatus(Boolean status){
+        return orderRepository.findAllByIsCart(status);
     }
 
 

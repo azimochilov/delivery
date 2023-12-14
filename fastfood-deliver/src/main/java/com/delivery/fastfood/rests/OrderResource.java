@@ -6,7 +6,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/api/orders")
 public class OrderResource {
 
     private final OrderServie orderServie;
@@ -15,40 +15,49 @@ public class OrderResource {
         this.orderServie = orderServie;
     }
 
-    @PostMapping("/order")
-    public ResponseEntity createOrder(@RequestBody OrderInfo orderInfo){
+    @PostMapping("")
+    public ResponseEntity createOrder(@RequestBody OrderInfo orderInfo) {
         return ResponseEntity.ok(orderServie.craeteOrder(orderInfo));
     }
 
-    @PatchMapping("/order/status/reject")
-    public ResponseEntity changeStatusToReject(@RequestBody Long orderId){
+    @PatchMapping("/status/reject")
+    public ResponseEntity changeStatusToReject(@RequestBody Long orderId) {
         orderServie.rejectOrder(orderId);
         return ResponseEntity.ok("Order with given id Rejected!! ");
     }
 
-    @PatchMapping("/order/status/accept")
-    public ResponseEntity changeStatusToAccept(@RequestBody Long orderId){
+    @PatchMapping("/status/accept")
+    public ResponseEntity changeStatusToAccept(@RequestBody Long orderId) {
         orderServie.acceptOrder(orderId);
         return ResponseEntity.ok("Order with given id Accepted!! ");
     }
 
-    @PatchMapping("/order/status/deliver")
-    public ResponseEntity changeStatusToDeliver(@RequestBody Long orderId){
+    @PatchMapping("/status/deliver/{id}")
+    public ResponseEntity changeStatusToDeliver(@PathVariable("id") Long orderId) {
         orderServie.deliverOrder(orderId);
         return ResponseEntity.ok("Order with given id Delivered!! ");
     }
 
-    @GetMapping("/orders")
-    public ResponseEntity getAll(){
-        return ResponseEntity.ok(orderServie.getAllOrder());
-    }
-    @GetMapping("/orders/false")
-    public ResponseEntity getAllIsCartFalse(){
+//    @GetMapping
+//    public ResponseEntity getAll() {
+//        return ResponseEntity.ok(orderServie.getAllOrder());
+//    }
+
+    @GetMapping("/false")
+    public ResponseEntity getAllIsCartFalse() {
         return ResponseEntity.ok(orderServie.getAllOrderIsCartFalse());
     }
 
-    @GetMapping("/orders/true")
-    public ResponseEntity getAllIsCartTrue(){
+    @GetMapping("/true")
+    public ResponseEntity getAllIsCartTrue() {
         return ResponseEntity.ok(orderServie.getAllOrderIsCartTrue());
+    }
+
+    @GetMapping
+    public ResponseEntity<?> getAllByStatus(@RequestParam(name = "status", required = false) Boolean isActive) {
+        if (isActive == null) {
+            return ResponseEntity.ok(orderServie.getAllOrder());
+        }
+        return ResponseEntity.ok(orderServie.getAllByStatus(isActive));
     }
 }
